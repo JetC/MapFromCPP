@@ -96,10 +96,43 @@
     for (id i in self.stringOfPointsArray)
     {
         static NSString *objectKind;
+        static BOOL isLoadingPieceOfPathFinished = NO;
         
         if ([i rangeOfString:@"surface"].length > 0)//当遇到表示surface开始的内容时
         {
+            if (self.surfacePoints.count >0)
+            {
+                UIBezierPath *path = [[UIBezierPath alloc]init];
+                NSValue *val = [self.surfacePoints objectAtIndex:0];
+                CGPoint p = [val CGPointValue];
+                [path moveToPoint:p];
+                for (NSUInteger i = 1; i<self.surfacePoints.count ; i++)
+                {
+                    if (i == self.surfacePoints.count-1)
+                    {
+                        NSValue *val1 = [self.surfacePoints objectAtIndex:i];
+                        CGPoint p1 = [val1 CGPointValue];
+                        [path addLineToPoint:p1];
+                        [path stroke];
+                    }
+                    else
+                    {
+                        NSValue *val1 = [self.surfacePoints objectAtIndex:i];
+                        CGPoint p1 = [val1 CGPointValue];
+                        [path addLineToPoint:p1];
+                    }
+                }
+            }
+            else if(self.linePoints.count >0)
+            {
+                
+            }
+            else
+            {
+            
+            }
             objectKind = @"surface";
+            
         }
         else if([i rangeOfString:@"line"].length > 0)//当遇到表示line开始的内容时
         {
@@ -109,25 +142,11 @@
         {
             if ([objectKind isEqual:@"surface"])
             {
-//                CGPoint point = CGPointFromString([NSString stringWithFormat:@"{%@}",i]);
-//                NSArray *pointArr = [i componentsSeparatedByString:@","];
-//                CGPoint point = CGPointMake([[pointArr objectAtIndex:0] floatValue], [[pointArr objectAtIndex:1] floatValue]);
-//                
-//                NSLog(@"%f",[[pointArr objectAtIndex:0] floatValue]);
                 [self.surfacePoints addObject:[NSValue valueWithCGPoint:CGPointFromString([NSString stringWithFormat:@"{%@}",i])]];
-//                NSValue *val = [self.surfacePoints objectAtIndex:0];
-//                CGPoint p = [val CGPointValue];
-//                NSLog(@"%f,  %f",p.x,p.y);
-
             }
             else if ([objectKind isEqual:@"line"])
             {
-                NSArray *pointArr = [i componentsSeparatedByString:@","];
-                CGPoint *point;
-                point->x = [[pointArr objectAtIndex:0] floatValue];
-                point->y = [[pointArr objectAtIndex:1] floatValue];
-                [self.linePoints addObject:CFBridgingRelease(point)];
-
+                [self.linePoints addObject:[NSValue valueWithCGPoint:CGPointFromString([NSString stringWithFormat:@"{%@}",i])]];
             }
             else
             {
