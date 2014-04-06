@@ -7,6 +7,7 @@
 //
 
 #import "SFViewController.h"
+#import "SFPoints.h"
 
 @interface SFViewController ()
 
@@ -39,7 +40,7 @@
     
     NSError *error = [[NSError alloc]init];
     NSString *filePath = [[NSBundle mainBundle]pathForResource:@"china1" ofType:@"txt"];
-    NSArray *plainText = [[NSString stringWithContentsOfFile:filePath usedEncoding:nil error:nil] componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]] ;
+    NSArray *plainText = [[NSMutableString stringWithContentsOfFile:filePath usedEncoding:nil error:nil] componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]] ;
     NSMutableArray *removedOtherObjects = [[NSMutableArray alloc]initWithArray:plainText];
     
     for (NSUInteger i = 0;i<removedOtherObjects.count ; i++)
@@ -73,95 +74,33 @@
         self.stringOfPointsArray = removedOtherObjects;
         NSLog(@"Reading Finish!");
     }
-    [self draw];
     
+    SFPoints *pointV = [[SFPoints alloc]init];
+    [pointV drawWithStringsArray:self.stringOfPointsArray andSurfaceArray:self.surfacePoints andLineArray:self.linePoints];
     
+    UIColor *color = [UIColor redColor];
+    [color set]; //设置线条颜色
+    
+    UIBezierPath* aPath = [UIBezierPath bezierPath];
+    aPath.lineWidth = 5.0;
+    
+    aPath.lineCapStyle = kCGLineCapRound; //线条拐角
+    aPath.lineJoinStyle = kCGLineCapRound; //终点处理
+    
+    // Set the starting point of the shape.
+    [aPath moveToPoint:CGPointMake(100.0, 0.0)];
+    
+    // Draw the lines
+    [aPath addLineToPoint:CGPointMake(200.0, 40.0)];
+    [aPath addLineToPoint:CGPointMake(160, 140)];
+    [aPath addLineToPoint:CGPointMake(40.0, 140)];
+    [aPath addLineToPoint:CGPointMake(0.0, 40.0)];
+    [aPath closePath];//第五条线通过调用closePath方法得到的
+    
+    [aPath stroke];//Draws line 根据坐标点连线
 }
 
-- (void)convertStringsToCGPoints
-{
-    for (id i in self.stringOfPointsArray)
-    {
-        NSArray *pointArr = [i componentsSeparatedByString:@","];
-        CGPoint *point;
-        point->x = [[pointArr objectAtIndex:0] floatValue];
-        point->y = [[pointArr objectAtIndex:1] floatValue];
-        [self.stringOfPointsArray addObject:CFBridgingRelease(point)];
-    }
-}
 
-
-- (void)draw
-{
-    for (id i in self.stringOfPointsArray)
-    {
-        static NSString *objectKind;
-        static BOOL isLoadingPieceOfPathFinished = NO;
-        
-        if ([i rangeOfString:@"surface"].length > 0)//当遇到表示surface开始的内容时
-        {
-            if (self.surfacePoints.count >0)
-            {
-                UIBezierPath *path = [[UIBezierPath alloc]init];
-                NSValue *val = [self.surfacePoints objectAtIndex:0];
-                CGPoint p = [val CGPointValue];
-                [path moveToPoint:p];
-                for (NSUInteger i = 1; i<self.surfacePoints.count ; i++)
-                {
-                    if (i == self.surfacePoints.count-1)
-                    {
-                        NSValue *val1 = [self.surfacePoints objectAtIndex:i];
-                        CGPoint p1 = [val1 CGPointValue];
-                        [path addLineToPoint:p1];
-                        [path stroke];
-                    }
-                    else
-                    {
-                        NSValue *val1 = [self.surfacePoints objectAtIndex:i];
-                        CGPoint p1 = [val1 CGPointValue];
-                        [path addLineToPoint:p1];
-                    }
-                }
-            }
-            else if(self.linePoints.count >0)
-            {
-                
-            }
-            else
-            {
-            
-            }
-            objectKind = @"surface";
-            
-        }
-        else if([i rangeOfString:@"line"].length > 0)//当遇到表示line开始的内容时
-        {
-            objectKind = @"line";
-        }
-        else if([i rangeOfString:@","].length > 0)
-        {
-            if ([objectKind isEqual:@"surface"])
-            {
-                [self.surfacePoints addObject:[NSValue valueWithCGPoint:CGPointFromString([NSString stringWithFormat:@"{%@}",i])]];
-            }
-            else if ([objectKind isEqual:@"line"])
-            {
-                [self.linePoints addObject:[NSValue valueWithCGPoint:CGPointFromString([NSString stringWithFormat:@"{%@}",i])]];
-            }
-            else
-            {
-                NSLog(@"error!");
-            }
-        
-        }
-        else
-        {
-            NSLog(@"error");
-        }
-        
-    }
-   
-}
 
 - (void)didReceiveMemoryWarning
 {
