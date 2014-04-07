@@ -37,7 +37,6 @@
     
     self.surfacePoints = [[NSMutableArray alloc]init];
     
-    
     NSError *error = [[NSError alloc]init];
     NSString *filePath = [[NSBundle mainBundle]pathForResource:@"china1" ofType:@"txt"];
     NSArray *plainText = [[NSMutableString stringWithContentsOfFile:filePath usedEncoding:nil error:nil] componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]] ;
@@ -77,6 +76,18 @@
     
     SFPoints *pointV = [[SFPoints alloc]init];
     [pointV drawWithStringsArray:self.stringOfPointsArray andSurfaceArray:self.surfacePoints andLineArray:self.linePoints];
+    [pointV setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.view addSubview:pointV];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:pointV attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
+    
+    // align pointV from the top
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-60.5-[pointV]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(pointV)]];
+    
+    // width constraint
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[pointV(==182)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(pointV)]];
+    
+    // height constraint
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[pointV(==150)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(pointV)]];
     
     
 }

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface SFPoints : UIView
+
 - (void)drawWithStringsArray:(NSMutableArray *)stringsArray andSurfaceArray:(NSMutableArray *)surfaceArray andLineArray:(NSMutableArray *)lineArray;
 
 @end
