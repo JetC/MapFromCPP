@@ -38,7 +38,7 @@
 
 /* Begin PBXFileReference section */
 		DF0C118418EFF6E700645534 /* SFPoints.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPoints.h; sourceTree = "<group>"; };
-		DF0C118518EFF6E700645534 /* SFPoints.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFPoints.m; sourceTree = "<group>"; };
+		DF0C118518EFF6E700645534 /* SFPoints.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFPoints.m; sourceTree = "<group>"; wrapsLines = 1; };
 		DF0C118818EFFCE600645534 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		DF0C118918EFFCE600645534 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		DF0C118A18EFFCE600645534 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
