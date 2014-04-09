@@ -88,13 +88,17 @@
         }
         else if([i rangeOfString:@","].length > 0)
         {
-            if ([objectKind isEqual:@"surface"])
+            if ([objectKind isEqual:@"surface"] && ![i isEqualToString:@"-99999,-99999"])
             {
                 [_surfaceArray addObject:[NSValue valueWithCGPoint:CGPointFromString([NSString stringWithFormat:@"{%@}",i])]];
             }
-            else if ([objectKind isEqual:@"line"])
+            else if ([objectKind isEqual:@"line"] && ![i isEqualToString:@"-99999,-99999"])
             {
                 [_lineArray addObject:[NSValue valueWithCGPoint:CGPointFromString([NSString stringWithFormat:@"{%@}",i])]];
+            }
+            else if ([i isEqualToString:@"-99999,-99999"])
+            {
+                NSLog(@"Scanned to an end of path");
             }
             else
             {
@@ -123,7 +127,7 @@
 - (UIBezierPath *)setupedBezierPath
 {
     UIBezierPath *path = [UIBezierPath bezierPath];
-    path.lineWidth = 5.0;
+    path.lineWidth = 0.5;
     path.lineCapStyle = kCGLineCapRound;
     path.lineJoinStyle = kCGLineCapRound;
     return path;
@@ -133,8 +137,10 @@
 {
     NSValue *val = [array objectAtIndex:index];
     CGPoint p = [val CGPointValue];
-    p.x = p.x/2000;
-    p.y = p.y/2000;
+    p.x = p.x + 932833;
+    p.y = p.y + 572515;
+    p.x = p.x/4000;
+    p.y = p.y/4000;
 //    NSLog(@"x:%f  y:%f",p.x,p.y);
     return p;
 }

@@ -77,19 +77,21 @@
     SFPoints *pointV = [[SFPoints alloc]init];
     [pointV drawWithStringsArray:self.stringOfPointsArray andSurfaceArray:self.surfacePoints andLineArray:self.linePoints];
     [pointV setTranslatesAutoresizingMaskIntoConstraints:NO];
+    CGAffineTransform xform = CGAffineTransformMakeRotation(M_PI);
+    pointV.transform = xform;
     [self.view addSubview:pointV];
+    
+    
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:pointV attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0]];
     
     // align pointV from the top
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-60.5-[pointV]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(pointV)]];
     
     // width constraint
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[pointV(==182)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(pointV)]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[pointV(==768)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(pointV)]];
     
     // height constraint
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[pointV(==150)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(pointV)]];
-    
-    
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[pointV(==1136)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(pointV)]];
 }
 
 
