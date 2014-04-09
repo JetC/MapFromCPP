@@ -36,6 +36,9 @@
     // Do any additional setup after loading the view.
     
     self.surfacePoints = [[NSMutableArray alloc]init];
+    self.linePoints = [[NSMutableArray alloc]init];
+
+    
     
     NSError *error = [[NSError alloc]init];
     NSString *filePath = [[NSBundle mainBundle]pathForResource:@"china1" ofType:@"txt"];
@@ -58,7 +61,7 @@
         
         if (hasToKeep == NO)
         {
-            NSLog(@"%@ IS DELETED!!",[removedOtherObjects objectAtIndex:i]);
+//            NSLog(@"%@ IS DELETED!!",[removedOtherObjects objectAtIndex:i]);
             [removedOtherObjects removeObjectAtIndex:i];
         }
         
@@ -66,12 +69,12 @@
     
     if (removedOtherObjects.count ==0 )
     {
-        NSLog(@"Error reading text : %@",[error localizedFailureReason]);
+//        NSLog(@"Error reading text : %@",[error localizedFailureReason]);
     }
     else
     {
         self.stringOfPointsArray = removedOtherObjects;
-        NSLog(@"Reading Finish!");
+//        NSLog(@"Reading Finish!");
     }
     
     SFPoints *pointV = [[SFPoints alloc]init];

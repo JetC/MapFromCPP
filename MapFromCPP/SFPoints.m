@@ -45,7 +45,7 @@
             if (_surfaceArray.count >0)//将上一组Surface点去组成path，保存至数组
             {
                 
-                UIColor *color = [UIColor redColor];
+                UIColor *color = [UIColor blackColor];
                 [color setFill];
                 
                 UIBezierPath *path = [self setupedBezierPath];
@@ -78,8 +78,9 @@
             }
             else//在读文件第一行时则忽略
             {
-                objectKind = @"surface";
+
             }
+            objectKind = @"surface";
             
         }
         else if([i rangeOfString:@"line"].length > 0)//当遇到表示line开始的内容时
@@ -87,7 +88,7 @@
             if (_surfaceArray.count >0)//将上一组Surface点去组成path，保存至数组
             {
                 
-                UIColor *color = [UIColor redColor];
+                UIColor *color = [UIColor blackColor];
                 [color setFill];
                 
                 UIBezierPath *path = [self setupedBezierPath];
@@ -114,14 +115,15 @@
                 for (NSUInteger i = 1; i<_lineArray.count ; i++)
                 {
                     [self addPointsForPath:path fromArray:_lineArray atIndex:i];
+//                    NSLog(@"%@",[_lineArray objectAtIndex:i]);
                 }
                 [_lineArray removeAllObjects];
                 
             }
-            else//在读文件第一行时则忽略
-            {
-                objectKind = @"line";
-            }
+          
+            
+            objectKind = @"line";
+            
             
         }
         else if([i rangeOfString:@","].length > 0)
@@ -136,17 +138,17 @@
             }
             else if ([i isEqualToString:@"-99999,-99999"])
             {
-                NSLog(@"Scanned to an end of path");
+//                NSLog(@"Scanned to an end of path");
             }
             else
             {
-                NSLog(@"Not containing ','  error!");
+//                NSLog(@"Not containing ','  error!");
             }
             
         }
         else
         {
-            NSLog(@"Can't recognize, will now skip this line %@",i);
+//            NSLog(@"Can't recognize, will now skip this line %@",i);
         }
         
     }
@@ -186,8 +188,9 @@
 
 - (UIBezierPath *)finalizePath:(UIBezierPath *)path
 {
-    [path closePath];
+//    [path closePath];
     [path stroke];
+    
     return path;
 }
 
