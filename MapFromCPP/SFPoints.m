@@ -137,10 +137,11 @@
 {
     NSValue *val = [array objectAtIndex:index];
     CGPoint p = [val CGPointValue];
-    p.x = p.x + 932833;
-    p.y = p.y + 572515;
+    p.x = p.x + 2432833;
+    p.y = p.y + 2372515;
     p.x = p.x/4000;
     p.y = p.y/4000;
+    p.x = 1134-p.x;
 //    NSLog(@"x:%f  y:%f",p.x,p.y);
     return p;
 }
