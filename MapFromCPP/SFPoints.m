@@ -68,8 +68,8 @@
                 UIBezierPath *path = [self setupedBezierPath];
                 
                 
-                [path moveToPoint:[self setupPointFromArray:_surfaceArray atIndex:0]];
-                for (NSUInteger i = 1; i<_surfaceArray.count ; i++)
+                [path moveToPoint:[self setupPointFromArray:_lineArray atIndex:0]];
+                for (NSUInteger i = 1; i<_lineArray.count ; i++)
                 {
                     [self addPointsForPath:path fromArray:_lineArray atIndex:i];
                 }
@@ -84,7 +84,45 @@
         }
         else if([i rangeOfString:@"line"].length > 0)//当遇到表示line开始的内容时
         {
-            objectKind = @"line";
+            if (_surfaceArray.count >0)//将上一组Surface点去组成path，保存至数组
+            {
+                
+                UIColor *color = [UIColor redColor];
+                [color setFill];
+                
+                UIBezierPath *path = [self setupedBezierPath];
+                
+                
+                [path moveToPoint:[self setupPointFromArray:_surfaceArray atIndex:0]];
+                
+                for (NSUInteger i = 1; i<_surfaceArray.count ; i++)
+                {
+                    //利用上面已经创建的path,添加点，并完成path，添加到view
+                    [self addPointsForPath:path fromArray:_surfaceArray atIndex:i];
+                }
+                [_surfaceArray removeAllObjects];
+            }
+            else if(_lineArray.count >0)//将上一组line点去组成path，保存至数组
+            {
+                UIColor *color = [UIColor redColor];
+                [color set];
+                
+                UIBezierPath *path = [self setupedBezierPath];
+                
+                
+                [path moveToPoint:[self setupPointFromArray:_lineArray atIndex:0]];
+                for (NSUInteger i = 1; i<_lineArray.count ; i++)
+                {
+                    [self addPointsForPath:path fromArray:_lineArray atIndex:i];
+                }
+                [_lineArray removeAllObjects];
+                
+            }
+            else//在读文件第一行时则忽略
+            {
+                objectKind = @"line";
+            }
+            
         }
         else if([i rangeOfString:@","].length > 0)
         {
